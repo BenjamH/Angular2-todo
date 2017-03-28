@@ -1,24 +1,29 @@
 import { Injectable } from '@angular/core';
-import {Todo, ToDoModel} from './todo';
+import {Todo, ITodo} from './todo';
 
 @Injectable()
-export class ToDoDataService {
+export class TodoDataService {
+  lastId: number = 0;
   todos: Todo[] = [];
 
   constructor() {
   }
 
-  getToDoById(id: number): Todo {
+  getTodoById(id: number): Todo {
     return this.todos
         .find(todo => todo.id === id)
   }
 
-  addToDo(todo: Todo): ToDoDataService {
+  addTodo(todo: Todo): TodoDataService {
+    if (!todo.id) {
+      todo.id = ++this.lastId;
+    }
+
     this.todos.push(todo);
     return this;
   }
 
-  deleteToDoById(id: number): ToDoDataService {
+  deleteTodoById(id: number): TodoDataService {
     // create new array instead of mutating
     // can also do using Set Object
     this.todos = this.todos
@@ -26,9 +31,9 @@ export class ToDoDataService {
     return this;
   }
 
-  updateToDoById(id: number, values: Object = {}): Todo {
+  updateTodoById(id: number, values: Object = {}): Todo {
     //TODO make sure values are valid
-    let todo = this.getToDoById(id);
+    let todo = this.getTodoById(id);
 
     if (!todo) {
       return null;
@@ -39,12 +44,12 @@ export class ToDoDataService {
     return todo;
   }
 
-  getTodos(): Todo[] {
+  getAllTodos(): Todo[] {
     return this.todos;
   }
 
   toggleTodoComplete(todo: Todo) {
-    let updatededTodo = this.updateToDoById(todo.id, {
+    let updatededTodo = this.updateTodoById(todo.id, {
       complete: !todo.complete
     });
     return updatededTodo;

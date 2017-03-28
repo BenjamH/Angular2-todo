@@ -5,11 +5,11 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 export class IssueDataService {
 
   constructor(
-      private http: Http
+      // private http: Http
   ) { }
 
   getIssues(): any {
-    this.http.get('https://api.github.com/repos/angular/angular/issues')
+    // this.http.get('https://api.github.com/repos/angular/angular/issues')
   }
 
 
