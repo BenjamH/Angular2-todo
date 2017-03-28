@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import {Todo, ITodo} from './todo';
+import { LocalStorageService, LocalStorage } from 'ng2-webstorage';
+
 
 @Injectable()
 export class TodoDataService {
   lastId: number = 0;
-  todos: Todo[] = [];
+  todos: Todo[] = this.storage.retrieve('todos') || [];
 
-  constructor() {
+  constructor(private storage: LocalStorageService) {
   }
 
   getTodoById(id: number): Todo {
@@ -20,6 +22,8 @@ export class TodoDataService {
     }
 
     this.todos.push(todo);
+    console.log(todo);
+    this.storage.store('todos', this.todos);
     return this;
   }
 
@@ -28,6 +32,7 @@ export class TodoDataService {
     // can also do using Set Object
     this.todos = this.todos
         .filter(todo => todo.id !== id);
+    this.storage.store('todos', this.todos);
     return this;
   }
 
@@ -41,6 +46,7 @@ export class TodoDataService {
 
     // will mutate object
     Object.assign(todo, values);
+    this.storage.store('todos', this.todos);
     return todo;
   }
 
