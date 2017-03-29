@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {Todo} from './todo';
 import { TodoDataService } from './to-do-data.service';
+import { IssueDataService } from './services/github/issue-data.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,15 @@ import { TodoDataService } from './to-do-data.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  issues: any = this.issueDataService.getIssues()
+      .subscribe(
+          issues => {
+            this.issues = issues;
+          });
 
   // private or public shorthand for creating properties with name
-  constructor(private todoDataService: TodoDataService) {
+  constructor(private todoDataService: TodoDataService,
+              private issueDataService: IssueDataService) {
 
   }
 
@@ -30,7 +37,8 @@ export class AppComponent {
   }
 
   get todos() {
-    return this.todoDataService.getAllTodos();
+    console.log(this.todoDataService.getAllTodos().concat(this.issues));
+    return this.todoDataService.getAllTodos().concat(this.issues);
   }
 
 }

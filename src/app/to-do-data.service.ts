@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import {Todo, ITodo} from './todo';
 import { LocalStorageService, LocalStorage } from 'ng2-webstorage';
 
-
 @Injectable()
 export class TodoDataService {
   lastId: number = 0;
-  todos: Todo[] = this.storage.retrieve('todos') || [];
+  todos: Todo[] = this.storage.retrieve('todos')
+          .map(todo => new Todo({
+            title: todo.title, link: todo.link, complete: todo.complete
+          })) || [];
 
   constructor(private storage: LocalStorageService) {
   }

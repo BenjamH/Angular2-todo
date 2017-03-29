@@ -1,12 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { Todo } from'./todo';
 import { TodoDataService } from './to-do-data.service';
+import { Ng2Webstorage } from 'ng2-webstorage';
 
 describe('TodoDataService', () => {
   let service;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        Ng2Webstorage
+      ],
       providers: [TodoDataService]
     });
   });

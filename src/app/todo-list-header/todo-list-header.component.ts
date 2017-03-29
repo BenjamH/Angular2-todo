@@ -8,7 +8,9 @@ import { Todo } from '../todo';
 })
 export class TodoListHeaderComponent {
 
-  newTodo: any = {};
+  newTodo: any = {
+    complete: false
+  };
 
   @Output()
   add: EventEmitter<Todo> = new EventEmitter();
@@ -23,7 +25,7 @@ export class TodoListHeaderComponent {
    */
 
   addTodo() {
-    this.add.emit(this.newTodo);
+    this.add.emit(new Todo(this.newTodo));
     this.newTodo = {};
   }
 
